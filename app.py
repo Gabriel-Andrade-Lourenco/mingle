@@ -294,10 +294,10 @@ if st.session_state[PAGE_SELECTION_KEY] == "Chat":
             st.error(f"Erro ao carregar os arquivos: {str(e)}")
             st.stop()
 
-    # Dropdown para selecionar documento ou "Todos os Documentos"
-    selected_document_name = st.selectbox("Documento", document_options)
-    if selected_document_name == "Todos os Documentos":
-        selected_document_name = None  # Define como None para busca global
+    # # Dropdown para selecionar documento ou "Todos os Documentos"
+    # selected_document_name = st.selectbox("Documento", document_options)
+    # if selected_document_name == "Todos os Documentos":
+    #     selected_document_name = None  # Define como None para busca global
 
     # Mostrar modelo e opções de chat
     models = {

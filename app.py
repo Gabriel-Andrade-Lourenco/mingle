@@ -306,7 +306,7 @@ if st.session_state[PAGE_SELECTION_KEY] == "Chat":
 
     model_id_options = list(models.keys())
     selected_model_id = st.selectbox("Modelo", model_id_options)
-    show_citations = st.checkbox("Mostrar citações")
+    # show_citations = st.checkbox("Mostrar citações")
 
     chosen_company_id = selected_company_id
     chosen_model_id = models[selected_model_id]
@@ -352,16 +352,16 @@ if st.session_state[PAGE_SELECTION_KEY] == "Chat":
                 # Renderizar a resposta do assistente imediatamente
                 st.chat_message("assistant").write(response_text)
 
-                if show_citations and "citation" in response_data:
-                    for citation_block in response_data["citation"]:
-                        citation_text = citation_block["content"]["text"]
-                        document_uri = citation_block["location"]["s3Location"]["uri"]
-                        document_name = citation_block["metadata"]["name"]
+                # if show_citations and "citation" in response_data:
+                #     for citation_block in response_data["citation"]:
+                #         citation_text = citation_block["content"]["text"]
+                #         document_uri = citation_block["location"]["s3Location"]["uri"]
+                #         document_name = citation_block["metadata"]["name"]
 
-                        st.markdown(f"**Citação do documento:** {document_name}")
-                        st.markdown(f"**URI do Documento:** {document_uri}")
-                        st.markdown(f"**Conteúdo:**\n{citation_text}")
-                        st.markdown("---")
+                #         st.markdown(f"**Citação do documento:** {document_name}")
+                #         st.markdown(f"**URI do Documento:** {document_uri}")
+                #         st.markdown(f"**Conteúdo:**\n{citation_text}")
+                #         st.markdown("---")
             else:
                 st.error("Falhou em obter uma resposta da API.")
         except Exception as e:

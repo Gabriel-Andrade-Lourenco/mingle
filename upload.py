@@ -27,7 +27,7 @@ update_company_page = st.sidebar.button("Atualize Empresa")
 # elif chat_page:
     # st.session_state[PAGE_SELECTION_KEY] = "Chat"
 # elif update_company_page:
-    st.session_state[PAGE_SELECTION_KEY] = "Atualize Empresa"
+    # st.session_state[PAGE_SELECTION_KEY] = "Atualize Empresa"
 
 # if st.session_state[PAGE_SELECTION_KEY] == "Adicione Empresa":
 #     st.title("🏢 Adicione Empresa")

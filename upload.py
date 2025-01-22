@@ -26,7 +26,7 @@ if PAGE_SELECTION_KEY not in st.session_state:
 #     st.session_state[PAGE_SELECTION_KEY] = "Empresas"
 # elif chat_page:
     # st.session_state[PAGE_SELECTION_KEY] = "Chat"
-elif update_company_page:
+# elif update_company_page:
     st.session_state[PAGE_SELECTION_KEY] = "Atualize Empresa"
 
 # if st.session_state[PAGE_SELECTION_KEY] == "Adicione Empresa":

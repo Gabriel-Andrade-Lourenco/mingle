@@ -29,233 +29,233 @@ elif chat_page:
 elif update_company_page:
     st.session_state[PAGE_SELECTION_KEY] = "Atualize Empresa"
 
-if st.session_state[PAGE_SELECTION_KEY] == "Adicione Empresa":
-    st.title("🏢 Adicione Empresa")
-    id = st.text_input("Empresa ID")
-    company_name = st.text_input("Nome da Empresa")
-    prompt = st.text_input("Prompt")
+# if st.session_state[PAGE_SELECTION_KEY] == "Adicione Empresa":
+#     st.title("🏢 Adicione Empresa")
+#     id = st.text_input("Empresa ID")
+#     company_name = st.text_input("Nome da Empresa")
+#     prompt = st.text_input("Prompt")
 
-    st.write("Selecione uma opção:")
-    option = st.radio("Escolha entre passar um documento ou uma lista de URLs", ("Documento", "Links"))
+#     st.write("Selecione uma opção:")
+#     option = st.radio("Escolha entre passar um documento ou uma lista de URLs", ("Documento", "Links"))
 
-    if option == "Documento":
-        document_type = st.selectbox("Tipo de Documento", ["csv", "pdf", "txt", "doc", "docx"])
+#     if option == "Documento":
+#         document_type = st.selectbox("Tipo de Documento", ["csv", "pdf", "txt", "doc", "docx"])
 
-        document_file = st.file_uploader("Upload", type=["csv", "pdf", "txt", "doc", "docx"])
+#         document_file = st.file_uploader("Upload", type=["csv", "pdf", "txt", "doc", "docx"])
 
-        create_company_button = st.button("Adicionar Empresa", key="create_company")
+#         create_company_button = st.button("Adicionar Empresa", key="create_company")
 
-        if create_company_button and document_file:
-            base64_content = base64.b64encode(document_file.getvalue()).decode()
+#         if create_company_button and document_file:
+#             base64_content = base64.b64encode(document_file.getvalue()).decode()
 
-            api_data = {
-                "company_id": id,
-                "company_name": company_name, 
-                "prompt": prompt,
-                "documentType": document_type,
-                "documentContent": base64_content,
-                "documentName": document_file.name.split('.')[0]
-            }
+#             api_data = {
+#                 "company_id": id,
+#                 "company_name": company_name, 
+#                 "prompt": prompt,
+#                 "documentType": document_type,
+#                 "documentContent": base64_content,
+#                 "documentName": document_file.name.split('.')[0]
+#             }
 
-            try:
-                response = requests.post(ENDPOINT_URL + "/company", json=api_data, headers=HEADERS)
-                if response.status_code == 200:
-                    st.success(f"Empresa '{company_name}' criada com sucesso!")
-                else:
-                    st.error("Falha ao criar a empresa. Por favor, tente novamente.")
-            except Exception as e:
-                st.error(f"Um erro ocorreu: {str(e)}")
+#             try:
+#                 response = requests.post(ENDPOINT_URL + "/company", json=api_data, headers=HEADERS)
+#                 if response.status_code == 200:
+#                     st.success(f"Empresa '{company_name}' criada com sucesso!")
+#                 else:
+#                     st.error("Falha ao criar a empresa. Por favor, tente novamente.")
+#             except Exception as e:
+#                 st.error(f"Um erro ocorreu: {str(e)}")
 
     
-    elif option == "Links":
-        st.subheader("Lista de URLs")
-        urls = st.text_input("Novo item")
+#     elif option == "Links":
+#         st.subheader("Lista de URLs")
+#         urls = st.text_input("Novo item")
 
-        if "lista" not in st.session_state:
-            st.session_state["lista"] = []
+#         if "lista" not in st.session_state:
+#             st.session_state["lista"] = []
 
-        if st.button('Adicionar'):
-            if urls:
-                st.session_state.lista.append(urls)
+#         if st.button('Adicionar'):
+#             if urls:
+#                 st.session_state.lista.append(urls)
 
-        if st.session_state.lista:
-            lista_str = "\n".join(st.session_state.lista)
-            st.text_area("Itens da Lista", value=lista_str, height=200)
+#         if st.session_state.lista:
+#             lista_str = "\n".join(st.session_state.lista)
+#             st.text_area("Itens da Lista", value=lista_str, height=200)
 
-        create_company_button = st.button("Adicionar Empresa", key="create_company")
+#         create_company_button = st.button("Adicionar Empresa", key="create_company")
 
-        if create_company_button and st.session_state.lista:
+#         if create_company_button and st.session_state.lista:
 
-            api_data = {
-                "company_id": id,
-                "company_name": company_name,
-                "prompt": prompt,
-                "urls": st.session_state.lista
-            }
+#             api_data = {
+#                 "company_id": id,
+#                 "company_name": company_name,
+#                 "prompt": prompt,
+#                 "urls": st.session_state.lista
+#             }
 
-            try:
-                response = requests.post(ENDPOINT_URL + "/company", json=api_data, headers=HEADERS)
-                if response.status_code == 200:
-                    st.success(f"Empresa '{company_name}' criada com sucesso!")
-                else:
-                    st.error("Falha ao criar a empresa. Por favor, tente novamente.")
-            except Exception as e:
-                st.error(f"Um erro ocorreu: {str(e)}")
+#             try:
+#                 response = requests.post(ENDPOINT_URL + "/company", json=api_data, headers=HEADERS)
+#                 if response.status_code == 200:
+#                     st.success(f"Empresa '{company_name}' criada com sucesso!")
+#                 else:
+#                     st.error("Falha ao criar a empresa. Por favor, tente novamente.")
+#             except Exception as e:
+#                 st.error(f"Um erro ocorreu: {str(e)}")
 
-elif st.session_state[PAGE_SELECTION_KEY] == "Atualize Empresa":
-    st.title("🔄 Atualize Empresa")
+# elif st.session_state[PAGE_SELECTION_KEY] == "Atualize Empresa":
+#     st.title("🔄 Atualize Empresa")
 
-    try:
-        response = requests.get(ENDPOINT_URL + "/company", headers=HEADERS)
-        if response.status_code == 200:
-            companies = response.json()
-            company_id_options = [company["name"] for company in companies]
-        else:
-            st.error("Falha ao obter a lista de empresas. Por favor, tente novamente.")
-            st.stop()
-    except Exception as e:
-        st.error(f"Um erro ocorreu: {str(e)}")
-        st.stop()
+#     try:
+#         response = requests.get(ENDPOINT_URL + "/company", headers=HEADERS)
+#         if response.status_code == 200:
+#             companies = response.json()
+#             company_id_options = [company["name"] for company in companies]
+#         else:
+#             st.error("Falha ao obter a lista de empresas. Por favor, tente novamente.")
+#             st.stop()
+#     except Exception as e:
+#         st.error(f"Um erro ocorreu: {str(e)}")
+#         st.stop()
 
-    selected_company_name = st.selectbox("Selecione a Empresa", company_id_options)
+#     selected_company_name = st.selectbox("Selecione a Empresa", company_id_options)
 
-    selected_company_id = next(
-        (company['id'] for company in companies if company["name"] == selected_company_name),
-        None,
-    )
+#     selected_company_id = next(
+#         (company['id'] for company in companies if company["name"] == selected_company_name),
+#         None,
+#     )
     
-    headers = {
-        "content-type": "application/json",
-        "x-api-key" : API_KEY
-    }
+#     headers = {
+#         "content-type": "application/json",
+#         "x-api-key" : API_KEY
+#     }
 
-    print("JORRRRGEEEE")
-    option = st.radio("Escolha entre passar um documento ou uma lista de URLs", ("Documento", "Links"))
+#     print("JORRRRGEEEE")
+#     option = st.radio("Escolha entre passar um documento ou uma lista de URLs", ("Documento", "Links"))
 
-    if option == "Documento":
-        document_type = st.selectbox("Tipo de Documento", ["csv", "pdf", "txt", "doc", "docx"])
-        document_file = st.file_uploader("Upload", type=["csv", "pdf", "txt", "doc", "docx"])
+#     if option == "Documento":
+#         document_type = st.selectbox("Tipo de Documento", ["csv", "pdf", "txt", "doc", "docx"])
+#         document_file = st.file_uploader("Upload", type=["csv", "pdf", "txt", "doc", "docx"])
     
-    if document_file:
-        document_name = str(document_file.name.rsplit('.', 1)[0])  # Nome do arquivo sem extensão
+#     if document_file:
+#         document_name = str(document_file.name.rsplit('.', 1)[0])  # Nome do arquivo sem extensão
         
-        update_company_button = st.button("Atualizar Empresa", key="update_company")
+#         update_company_button = st.button("Atualizar Empresa", key="update_company")
 
-        print("id", selected_company_id, "documenttype:", document_type, "documentname: ", document_name)
-        if update_company_button:
+#         print("id", selected_company_id, "documenttype:", document_type, "documentname: ", document_name)
+#         if update_company_button:
             
-            # Solicita a URL assinada ao backend
-            api_data = {
-                "id": selected_company_id,
-                "documentType": document_type,
-                "documentName": document_name,
-                "documentId": document_name  # Pode ajustar conforme necessário
-            }
+#             # Solicita a URL assinada ao backend
+#             api_data = {
+#                 "id": selected_company_id,
+#                 "documentType": document_type,
+#                 "documentName": document_name,
+#                 "documentId": document_name  # Pode ajustar conforme necessário
+#             }
             
-            print(api_data, headers)
-            url_assinada_resposta = requests.post(f"{ENDPOINT_URL}/s3/signed-url", json=api_data, headers=headers)
-            print(url_assinada_resposta)
-            if url_assinada_resposta.status_code == 200:
-                url_assinada = url_assinada_resposta.json().get("uploadURL")
+#             print(api_data, headers)
+#             url_assinada_resposta = requests.post(f"{ENDPOINT_URL}/s3/signed-url", json=api_data, headers=headers)
+#             print(url_assinada_resposta)
+#             if url_assinada_resposta.status_code == 200:
+#                 url_assinada = url_assinada_resposta.json().get("uploadURL")
 
-                upload_resposta = requests.put(url_assinada, data=document_file)
+#                 upload_resposta = requests.put(url_assinada, data=document_file)
 
-                if upload_resposta.status_code == 200:
-                    st.success("Arquivo enviado com sucesso!")
-                else:
-                    st.error(f"Erro ao enviar arquivo: {upload_resposta.text}")
-            else:
-                st.error(f"Erro ao obter URL assinada: {url_assinada_resposta.text}")
+#                 if upload_resposta.status_code == 200:
+#                     st.success("Arquivo enviado com sucesso!")
+#                 else:
+#                     st.error(f"Erro ao enviar arquivo: {upload_resposta.text}")
+#             else:
+#                 st.error(f"Erro ao obter URL assinada: {url_assinada_resposta.text}")
 
 
-    elif option == "Links":
-        st.subheader("Lista de URLs")
-        urls = st.text_input("Novo item")
+#     elif option == "Links":
+#         st.subheader("Lista de URLs")
+#         urls = st.text_input("Novo item")
 
-        if "lista" not in st.session_state:
-            st.session_state["lista"] = []
+#         if "lista" not in st.session_state:
+#             st.session_state["lista"] = []
 
-        if st.button('Adicionar'):
-            if urls:
-                st.session_state.lista.append(urls)
+#         if st.button('Adicionar'):
+#             if urls:
+#                 st.session_state.lista.append(urls)
 
-        if st.session_state.lista:
-            lista_str = "\n".join(st.session_state.lista)
-            st.text_area("Itens da Lista", value=lista_str, height=200)
+#         if st.session_state.lista:
+#             lista_str = "\n".join(st.session_state.lista)
+#             st.text_area("Itens da Lista", value=lista_str, height=200)
 
-        update_company_button = st.button("Atualizar Empresa", key="update_company")
+#         update_company_button = st.button("Atualizar Empresa", key="update_company")
 
-        if update_company_button and st.session_state.lista:
+#         if update_company_button and st.session_state.lista:
 
-            api_data = {
-                "company_id": selected_company_id,
-                "prompt": prompt,
-                "urls": st.session_state.lista
-            }
+#             api_data = {
+#                 "company_id": selected_company_id,
+#                 "prompt": prompt,
+#                 "urls": st.session_state.lista
+#             }
 
-            try:
-                response = requests.post(ENDPOINT_URL + "/company", json=api_data, headers=HEADERS)
-                if response.status_code == 200:
-                    st.success(f"Empresa '{selected_company_name}' atualizada com sucesso!")
-                else:
-                    st.error("Falha ao atualizar a empresa. Por favor, tente novamente.")
-            except Exception as e:
-                st.error(f"Um erro ocorreu: {str(e)}")
+#             try:
+#                 response = requests.post(ENDPOINT_URL + "/company", json=api_data, headers=HEADERS)
+#                 if response.status_code == 200:
+#                     st.success(f"Empresa '{selected_company_name}' atualizada com sucesso!")
+#                 else:
+#                     st.error("Falha ao atualizar a empresa. Por favor, tente novamente.")
+#             except Exception as e:
+#                 st.error(f"Um erro ocorreu: {str(e)}")
 
-if st.session_state[PAGE_SELECTION_KEY] == "Empresas":
-    st.title("🏢 Empresas")
+# if st.session_state[PAGE_SELECTION_KEY] == "Empresas":
+#     st.title("🏢 Empresas")
 
-    try:
-        response = requests.get(ENDPOINT_URL + "/company", headers=HEADERS)
-        if response.status_code == 200:
-            data = response.json()
-        else:
-            st.error("Falha ao trazer empresas. Por favor, tente novamente.")
-    except Exception as e:
-        st.error(f"Um erro ocorreu: {str(e)}")
+#     try:
+#         response = requests.get(ENDPOINT_URL + "/company", headers=HEADERS)
+#         if response.status_code == 200:
+#             data = response.json()
+#         else:
+#             st.error("Falha ao trazer empresas. Por favor, tente novamente.")
+#     except Exception as e:
+#         st.error(f"Um erro ocorreu: {str(e)}")
 
-    if 'data' in locals():
-        for i, company in enumerate(data):
-            st.text_input(label='Company Name', value=company['name'], disabled=True, key=f"checkbox_{company['name']}-{i}")
+#     if 'data' in locals():
+#         for i, company in enumerate(data):
+#             st.text_input(label='Company Name', value=company['name'], disabled=True, key=f"checkbox_{company['name']}-{i}")
 
-            company_id = company['id']
+#             company_id = company['id']
 
-            # Verificar se o campo 'sync' existe e é False
-            if 'sync' in company and company['sync'] == False:
-                st.warning("Esta empresa ainda não foi sincronizada.")
+#             # Verificar se o campo 'sync' existe e é False
+#             if 'sync' in company and company['sync'] == False:
+#                 st.warning("Esta empresa ainda não foi sincronizada.")
 
-            # try:
-            #     response = requests.get(ENDPOINT_URL + f"/company/{company_id}")
-            #     if response.status_code == 200:
-            #         items = response.json()
-            #     else:
-            #         st.error("Falha ao trazer arquivos. Por favor, tente novamente.")
-            # except Exception as e:
-            #     st.error(f"Um erro ocorreu: {str(e)}")
+#             # try:
+#             #     response = requests.get(ENDPOINT_URL + f"/company/{company_id}")
+#             #     if response.status_code == 200:
+#             #         items = response.json()
+#             #     else:
+#             #         st.error("Falha ao trazer arquivos. Por favor, tente novamente.")
+#             # except Exception as e:
+#             #     st.error(f"Um erro ocorreu: {str(e)}")
 
-            items = company['archives']
+#             items = company['archives']
 
-            if items is not None and items:
-                for i, archive in enumerate(company['archives']):
-                    checkbox_selected = st.checkbox(f"🔗 {archive['archive_name']}", key=f"checkbox_{company_id}_{archive['archive_name']}-{i}")
-                    if checkbox_selected:
-                        selected_archives.append(archive['archive_name'])
+#             if items is not None and items:
+#                 for i, archive in enumerate(company['archives']):
+#                     checkbox_selected = st.checkbox(f"🔗 {archive['archive_name']}", key=f"checkbox_{company_id}_{archive['archive_name']}-{i}")
+#                     if checkbox_selected:
+#                         selected_archives.append(archive['archive_name'])
 
-                delete_path = st.button("Excluir", key=f"delete_{company_id}_{i}")
+#                 delete_path = st.button("Excluir", key=f"delete_{company_id}_{i}")
 
-                if delete_path:
-                    body = {
-                        "paths": selected_archives
-                    }
+#                 if delete_path:
+#                     body = {
+#                         "paths": selected_archives
+#                     }
                     
-                    try:
-                        response = requests.post(ENDPOINT_URL + f"/company/{company_id}/delete", json=body, headers=HEADERS)
-                        if response.status_code == 200:
-                            st.success(f"Arquivo excluído com sucesso!")
-                        else:
-                            st.error("Falha ao excluir os arquivos. Por favor, tente novamente.")
-                    except Exception as e:
-                        st.error(f"Um erro ocorreu: {str(e)}")
+#                     try:
+#                         response = requests.post(ENDPOINT_URL + f"/company/{company_id}/delete", json=body, headers=HEADERS)
+#                         if response.status_code == 200:
+#                             st.success(f"Arquivo excluído com sucesso!")
+#                         else:
+#                             st.error("Falha ao excluir os arquivos. Por favor, tente novamente.")
+#                     except Exception as e:
+#                         st.error(f"Um erro ocorreu: {str(e)}")
 if st.session_state[PAGE_SELECTION_KEY] == "Chat":
     st.title("💬 Chatbot")
 

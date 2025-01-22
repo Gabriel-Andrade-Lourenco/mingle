@@ -16,7 +16,7 @@ if PAGE_SELECTION_KEY not in st.session_state:
     st.session_state[PAGE_SELECTION_KEY] = "Adicione Empresa"
 
 # create_company_page = st.sidebar.button("Adicione Empresa")
-update_company_page = st.sidebar.button("Atualize Empresa")
+# update_company_page = st.sidebar.button("Atualize Empresa")
 # company_page = st.sidebar.button("Empresas")
 # chat_page = st.sidebar.button("Chat")
 
@@ -27,7 +27,7 @@ update_company_page = st.sidebar.button("Atualize Empresa")
 # elif chat_page:
     # st.session_state[PAGE_SELECTION_KEY] = "Chat"
 # elif update_company_page:
-    # st.session_state[PAGE_SELECTION_KEY] = "Atualize Empresa"
+    st.session_state[PAGE_SELECTION_KEY] = "Atualize Empresa"
 
 # if st.session_state[PAGE_SELECTION_KEY] == "Adicione Empresa":
 #     st.title("🏢 Adicione Empresa")

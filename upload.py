@@ -277,7 +277,7 @@ elif st.session_state[PAGE_SELECTION_KEY] == "Atualize Empresa":
 #     selected_company_id = next(
 #         (company['id'] for company in companies if company["name"] == selected_company_name),
 #         None,
-    )
+    # )
 
     # # Seleção de documento
     # selected_document_name = None

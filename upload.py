@@ -362,7 +362,7 @@ elif st.session_state[PAGE_SELECTION_KEY] == "Atualize Empresa":
                 #         st.markdown(f"**URI do Documento:** {document_uri}")
                 #         st.markdown(f"**Conteúdo:**\n{citation_text}")
                 #         st.markdown("---")
-            else:
-                st.error("Falhou em obter uma resposta da API.")
-        except Exception as e:
-            st.error(f"Ocorreu um erro ao tentar enviar o pedido.")
+        #     else:
+        #         st.error("Falhou em obter uma resposta da API.")
+        # except Exception as e:
+        #     st.error(f"Ocorreu um erro ao tentar enviar o pedido.")

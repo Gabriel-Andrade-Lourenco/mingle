@@ -15,19 +15,19 @@ selected_archives = []
 if PAGE_SELECTION_KEY not in st.session_state:
     st.session_state[PAGE_SELECTION_KEY] = "Adicione Empresa"
 
-create_company_page = st.sidebar.button("Adicione Empresa")
-update_company_page = st.sidebar.button("Atualize Empresa")
-company_page = st.sidebar.button("Empresas")
-chat_page = st.sidebar.button("Chat")
+# create_company_page = st.sidebar.button("Adicione Empresa")
+# update_company_page = st.sidebar.button("Atualize Empresa")
+# company_page = st.sidebar.button("Empresas")
+# chat_page = st.sidebar.button("Chat")
 
-if create_company_page:
-    st.session_state[PAGE_SELECTION_KEY] = "Adicione Empresa"
-elif company_page:
-    st.session_state[PAGE_SELECTION_KEY] = "Empresas"
-elif chat_page:
+# if create_company_page:
+#     st.session_state[PAGE_SELECTION_KEY] = "Adicione Empresa"
+# elif company_page:
+#     st.session_state[PAGE_SELECTION_KEY] = "Empresas"
+# elif chat_page:
     st.session_state[PAGE_SELECTION_KEY] = "Chat"
-elif update_company_page:
-    st.session_state[PAGE_SELECTION_KEY] = "Atualize Empresa"
+# elif update_company_page:
+#     st.session_state[PAGE_SELECTION_KEY] = "Atualize Empresa"
 
 # if st.session_state[PAGE_SELECTION_KEY] == "Adicione Empresa":
 #     st.title("🏢 Adicione Empresa")

@@ -299,7 +299,6 @@ if st.session_state[PAGE_SELECTION_KEY] == "Chat":
     if selected_document_name == "Todos os Documentos":
         selected_document_name = None  # Define como None para busca global
 
-    Mostrar modelo e opções de chat
     models = {
         "claude-3-5-sonnet-v2": "us.anthropic.claude-3-5-sonnet-20241022-v2:0",
     }

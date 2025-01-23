@@ -257,7 +257,7 @@ if PAGE_SELECTION_KEY not in st.session_state:
 #                     except Exception as e:
 #                         st.error(f"Um erro ocorreu: {str(e)}")
 if st.session_state[PAGE_SELECTION_KEY] == "Chat":
-    st.title("💬 Chatbot")
+    st.title("💬 Inteligência de Embalagem 5.0")
 
     # Obter empresas
     try:

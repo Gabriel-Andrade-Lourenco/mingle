@@ -13,10 +13,10 @@ ENDPOINT_URL = "https://7ryvoj1rfa.execute-api.us-east-1.amazonaws.com/prod"
 
 selected_archives = []
 
-if PAGE_SELECTION_KEY not in st.session_state:
-    st.session_state[PAGE_SELECTION_KEY] = "Adicione Empresa"
+# if PAGE_SELECTION_KEY not in st.session_state:
+#     st.session_state[PAGE_SELECTION_KEY] = "Adicione Empresa"
 
-create_company_page = st.sidebar.button("Adicione Empresa")
+# create_company_page = st.sidebar.button("Adicione Empresa")
 update_company_page = st.sidebar.button("Atualize Empresa")
 company_page = st.sidebar.button("Empresas")
 chat_page = st.sidebar.button("Chat")

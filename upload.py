@@ -29,80 +29,80 @@ elif chat_page:
 elif update_company_page:
     st.session_state[PAGE_SELECTION_KEY] = "Atualize Empresa"
 
-if st.session_state[PAGE_SELECTION_KEY] == "Adicione Empresa":
-    st.title("🏢 Adicione Empresa")
-    id = st.text_input("Empresa ID")
-    company_name = st.text_input("Nome da Empresa")
-    prompt = st.text_input("Prompt")
+# if st.session_state[PAGE_SELECTION_KEY] == "Adicione Empresa":
+#     st.title("🏢 Adicione Empresa")
+#     id = st.text_input("Empresa ID")
+#     company_name = st.text_input("Nome da Empresa")
+#     prompt = st.text_input("Prompt")
 
-    st.write("Selecione uma opção:")
-    option = st.radio("Escolha entre passar um documento ou uma lista de URLs", ("Documento", "Links"))
+#     st.write("Selecione uma opção:")
+#     option = st.radio("Escolha entre passar um documento ou uma lista de URLs", ("Documento", "Links"))
 
-    if option == "Documento":
-        document_type = st.selectbox("Tipo de Documento", ["csv", "pdf", "txt", "doc", "docx"])
+#     if option == "Documento":
+#         document_type = st.selectbox("Tipo de Documento", ["csv", "pdf", "txt", "doc", "docx"])
 
-        document_file = st.file_uploader("Upload", type=["csv", "pdf", "txt", "doc", "docx"])
+#         document_file = st.file_uploader("Upload", type=["csv", "pdf", "txt", "doc", "docx"])
 
-        create_company_button = st.button("Adicionar Empresa", key="create_company")
+#         create_company_button = st.button("Adicionar Empresa", key="create_company")
 
-        if create_company_button and document_file:
-            base64_content = base64.b64encode(document_file.getvalue()).decode()
+#         if create_company_button and document_file:
+#             base64_content = base64.b64encode(document_file.getvalue()).decode()
 
-            api_data = {
-                "company_id": id,
-                "company_name": company_name, 
-                "prompt": prompt,
-                "documentType": document_type,
-                "documentContent": base64_content,
-                "documentName": document_file.name.split('.')[0]
-            }
+#             api_data = {
+#                 "company_id": id,
+#                 "company_name": company_name,
+#                 "prompt": prompt,
+#                 "documentType": document_type,
+#                 "documentContent": base64_content,
+#                 "documentName": document_file.name.split('.')[0]
+#             }
 
-            try:
-                response = requests.post(ENDPOINT_URL + "/company", json=api_data, headers=HEADERS)
-                if response.status_code == 200:
-                    st.success(f"Empresa '{company_name}' criada com sucesso!")
-                else:
-                    st.error("Falha ao criar a empresa. Por favor, tente novamente.")
-            except Exception as e:
-                st.error(f"Um erro ocorreu: {str(e)}")
+#             try:
+#                 response = requests.post(ENDPOINT_URL + "/company", json=api_data, headers=HEADERS)
+#                 if response.status_code == 200:
+#                     st.success(f"Empresa '{company_name}' criada com sucesso!")
+#                 else:
+#                     st.error("Falha ao criar a empresa. Por favor, tente novamente.")
+#             except Exception as e:
+#                 st.error(f"Um erro ocorreu: {str(e)}")
 
-    
-    elif option == "Links":
-        st.subheader("Lista de URLs")
-        urls = st.text_input("Novo item")
 
-        if "lista" not in st.session_state:
-            st.session_state["lista"] = []
+#     elif option == "Links":
+#         st.subheader("Lista de URLs")
+#         urls = st.text_input("Novo item")
 
-        if st.button('Adicionar'):
-            if urls:
-                st.session_state.lista.append(urls)
+#         if "lista" not in st.session_state:
+#             st.session_state["lista"] = []
 
-        if st.session_state.lista:
-            lista_str = "\n".join(st.session_state.lista)
-            st.text_area("Itens da Lista", value=lista_str, height=200)
+#         if st.button('Adicionar'):
+#             if urls:
+#                 st.session_state.lista.append(urls)
 
-        create_company_button = st.button("Adicionar Empresa", key="create_company")
+#         if st.session_state.lista:
+#             lista_str = "\n".join(st.session_state.lista)
+#             st.text_area("Itens da Lista", value=lista_str, height=200)
 
-        if create_company_button and st.session_state.lista:
+#         create_company_button = st.button("Adicionar Empresa", key="create_company")
 
-            api_data = {
-                "company_id": id,
-                "company_name": company_name,
-                "prompt": prompt,
-                "urls": st.session_state.lista
-            }
+#         if create_company_button and st.session_state.lista:
 
-            try:
-                response = requests.post(ENDPOINT_URL + "/company", json=api_data, headers=HEADERS)
-                if response.status_code == 200:
-                    st.success(f"Empresa '{company_name}' criada com sucesso!")
-                else:
-                    st.error("Falha ao criar a empresa. Por favor, tente novamente.")
-            except Exception as e:
-                st.error(f"Um erro ocorreu: {str(e)}")
+#             api_data = {
+#                 "company_id": id,
+#                 "company_name": company_name,
+#                 "prompt": prompt,
+#                 "urls": st.session_state.lista
+#             }
 
-elif st.session_state[PAGE_SELECTION_KEY] == "Atualize Empresa":
+#             try:
+#                 response = requests.post(ENDPOINT_URL + "/company", json=api_data, headers=HEADERS)
+#                 if response.status_code == 200:
+#                     st.success(f"Empresa '{company_name}' criada com sucesso!")
+#                 else:
+#                     st.error("Falha ao criar a empresa. Por favor, tente novamente.")
+#             except Exception as e:
+#                 st.error(f"Um erro ocorreu: {str(e)}")
+
+if st.session_state[PAGE_SELECTION_KEY] == "Atualize Empresa":
     st.title("🔄 Atualize Empresa")
 
     try:
@@ -168,39 +168,39 @@ elif st.session_state[PAGE_SELECTION_KEY] == "Atualize Empresa":
                 st.error(f"Erro ao obter URL assinada: {url_assinada_resposta.text}")
 
 
-    elif option == "Links":
-        st.subheader("Lista de URLs")
-        urls = st.text_input("Novo item")
+    # elif option == "Links":
+    #     st.subheader("Lista de URLs")
+    #     urls = st.text_input("Novo item")
 
-        if "lista" not in st.session_state:
-            st.session_state["lista"] = []
+    #     if "lista" not in st.session_state:
+    #         st.session_state["lista"] = []
 
-        if st.button('Adicionar'):
-            if urls:
-                st.session_state.lista.append(urls)
+    #     if st.button('Adicionar'):
+    #         if urls:
+    #             st.session_state.lista.append(urls)
 
-        if st.session_state.lista:
-            lista_str = "\n".join(st.session_state.lista)
-            st.text_area("Itens da Lista", value=lista_str, height=200)
+    #     if st.session_state.lista:
+    #         lista_str = "\n".join(st.session_state.lista)
+    #         st.text_area("Itens da Lista", value=lista_str, height=200)
 
-        update_company_button = st.button("Atualizar Empresa", key="update_company")
+    #     update_company_button = st.button("Atualizar Empresa", key="update_company")
 
-        if update_company_button and st.session_state.lista:
+    #     if update_company_button and st.session_state.lista:
 
-            api_data = {
-                "company_id": selected_company_id,
-                "prompt": prompt,
-                "urls": st.session_state.lista
-            }
+    #         api_data = {
+    #             "company_id": selected_company_id,
+    #             "prompt": prompt, # prompt precisa ser definido em algum lugar antes, ou pode ser um campo de texto também.
+    #             "urls": st.session_state.lista
+    #         }
 
-            try:
-                response = requests.post(ENDPOINT_URL + "/company", json=api_data, headers=HEADERS)
-                if response.status_code == 200:
-                    st.success(f"Empresa '{selected_company_name}' atualizada com sucesso!")
-                else:
-                    st.error("Falha ao atualizar a empresa. Por favor, tente novamente.")
-            except Exception as e:
-                st.error(f"Um erro ocorreu: {str(e)}")
+    #         try:
+    #             response = requests.post(ENDPOINT_URL + "/company", json=api_data, headers=HEADERS)
+    #             if response.status_code == 200:
+    #                 st.success(f"Empresa '{selected_company_name}' atualizada com sucesso!")
+    #             else:
+    #                 st.error("Falha ao atualizar a empresa. Por favor, tente novamente.")
+    #         except Exception as e:
+    #             st.error(f"Um erro ocorreu: {str(e)}")
 
 if st.session_state[PAGE_SELECTION_KEY] == "Empresas":
     st.title("🏢 Empresas")
@@ -305,7 +305,7 @@ if st.session_state[PAGE_SELECTION_KEY] == "Chat":
 
     model_id_options = list(models.keys())
     selected_model_id = st.selectbox("Modelo", model_id_options)
-    # show_citations = st.checkbox("Mostrar citações")
+    show_citations = st.checkbox("Mostrar citações")  # Checkbox movido para antes do loop de mensagens
 
     chosen_company_id = selected_company_id
     chosen_model_id = models[selected_model_id]

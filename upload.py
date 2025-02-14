@@ -66,7 +66,7 @@ if st.session_state[PAGE_SELECTION_KEY] == "Atualize Empresa":
     }
 
     print("JORRRRGEEEE")
-    option = st.radio("Escolha entre passar um documento ou uma lista de URLs", ("Documento", "Links"))
+    option = st.radio("Escolha entre passar um documento ou uma lista de URLs", ("Documento"))
 
     if option == "Documento":
         document_type = st.selectbox("Tipo de Documento", ["csv", "pdf", "txt", "doc", "docx"])

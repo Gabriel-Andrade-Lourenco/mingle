@@ -20,9 +20,9 @@ update_company_page = st.sidebar.button("Atualize Empresa")
 company_page = st.sidebar.button("Empresas")
 chat_page = st.sidebar.button("Chat")
 
-if create_company_page:
-    st.session_state[PAGE_SELECTION_KEY] = "Adicione Empresa"
-elif company_page:
+# if create_company_page:
+#     st.session_state[PAGE_SELECTION_KEY] = "Adicione Empresa"
+if company_page:
     st.session_state[PAGE_SELECTION_KEY] = "Empresas"
 elif chat_page:
     st.session_state[PAGE_SELECTION_KEY] = "Chat"

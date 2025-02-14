@@ -69,8 +69,8 @@ if st.session_state[PAGE_SELECTION_KEY] == "Atualize Empresa":
     option = st.radio("Escolha entre passar um documento ou uma lista de URLs", ("Documento",)) # Limita as opções
 
     if option == "Documento":
-        document_type = st.selectbox("Tipo de Documento", ["csv", "pdf", "txt", "doc", "docx"])
-        document_file = st.file_uploader("Upload", type=["csv", "pdf", "txt", "doc", "docx"])
+        document_type = st.selectbox("Tipo de Documento", ["pdf", "doc", "docx"])
+        document_file = st.file_uploader("Upload", type=["pdf", "doc", "docx"])
     
         if document_file:
             document_name = str(document_file.name.rsplit('.', 1)[0])  # Nome do arquivo sem extensão

@@ -1,4 +1,3 @@
-
 import streamlit as st
 import requests
 import base64
@@ -13,14 +12,17 @@ ENDPOINT_URL = "https://7ryvoj1rfa.execute-api.us-east-1.amazonaws.com/prod"
 
 selected_archives = []
 
-# if PAGE_SELECTION_KEY not in st.session_state:
-#     st.session_state[PAGE_SELECTION_KEY] = "Adicione Empresa"
+# Inicializa o estado da sessão para "Atualize Empresa" se não existir.
+if PAGE_SELECTION_KEY not in st.session_state:
+    st.session_state[PAGE_SELECTION_KEY] = "Atualize Empresa"
 
+# Comenta os botões da barra lateral para "Adicione Empresa"
 # create_company_page = st.sidebar.button("Adicione Empresa")
 update_company_page = st.sidebar.button("Atualize Empresa")
 company_page = st.sidebar.button("Empresas")
 chat_page = st.sidebar.button("Chat")
 
+# Mantém a lógica para mudar a página, mas comenta a parte de "Adicione Empresa"
 # if create_company_page:
 #     st.session_state[PAGE_SELECTION_KEY] = "Adicione Empresa"
 if company_page:
@@ -30,78 +32,11 @@ elif chat_page:
 elif update_company_page:
     st.session_state[PAGE_SELECTION_KEY] = "Atualize Empresa"
 
+# Bloco "Adicione Empresa" (completamente comentado) - Já estava comentado
+
 # if st.session_state[PAGE_SELECTION_KEY] == "Adicione Empresa":
-#     st.title("🏢 Adicione Empresa")
-#     id = st.text_input("Empresa ID")
-#     company_name = st.text_input("Nome da Empresa")
-#     prompt = st.text_input("Prompt")
+#     ...
 
-#     st.write("Selecione uma opção:")
-#     option = st.radio("Escolha entre passar um documento ou uma lista de URLs", ("Documento", "Links"))
-
-#     if option == "Documento":
-#         document_type = st.selectbox("Tipo de Documento", ["csv", "pdf", "txt", "doc", "docx"])
-
-#         document_file = st.file_uploader("Upload", type=["csv", "pdf", "txt", "doc", "docx"])
-
-#         create_company_button = st.button("Adicionar Empresa", key="create_company")
-
-#         if create_company_button and document_file:
-#             base64_content = base64.b64encode(document_file.getvalue()).decode()
-
-#             api_data = {
-#                 "company_id": id,
-#                 "company_name": company_name,
-#                 "prompt": prompt,
-#                 "documentType": document_type,
-#                 "documentContent": base64_content,
-#                 "documentName": document_file.name.split('.')[0]
-#             }
-
-#             try:
-#                 response = requests.post(ENDPOINT_URL + "/company", json=api_data, headers=HEADERS)
-#                 if response.status_code == 200:
-#                     st.success(f"Empresa '{company_name}' criada com sucesso!")
-#                 else:
-#                     st.error("Falha ao criar a empresa. Por favor, tente novamente.")
-#             except Exception as e:
-#                 st.error(f"Um erro ocorreu: {str(e)}")
-
-
-#     elif option == "Links":
-#         st.subheader("Lista de URLs")
-#         urls = st.text_input("Novo item")
-
-#         if "lista" not in st.session_state:
-#             st.session_state["lista"] = []
-
-#         if st.button('Adicionar'):
-#             if urls:
-#                 st.session_state.lista.append(urls)
-
-#         if st.session_state.lista:
-#             lista_str = "\n".join(st.session_state.lista)
-#             st.text_area("Itens da Lista", value=lista_str, height=200)
-
-#         create_company_button = st.button("Adicionar Empresa", key="create_company")
-
-#         if create_company_button and st.session_state.lista:
-
-#             api_data = {
-#                 "company_id": id,
-#                 "company_name": company_name,
-#                 "prompt": prompt,
-#                 "urls": st.session_state.lista
-#             }
-
-#             try:
-#                 response = requests.post(ENDPOINT_URL + "/company", json=api_data, headers=HEADERS)
-#                 if response.status_code == 200:
-#                     st.success(f"Empresa '{company_name}' criada com sucesso!")
-#                 else:
-#                     st.error("Falha ao criar a empresa. Por favor, tente novamente.")
-#             except Exception as e:
-#                 st.error(f"Um erro ocorreu: {str(e)}")
 
 if st.session_state[PAGE_SELECTION_KEY] == "Atualize Empresa":
     st.title("🔄 Atualize Empresa")
@@ -137,39 +72,39 @@ if st.session_state[PAGE_SELECTION_KEY] == "Atualize Empresa":
         document_type = st.selectbox("Tipo de Documento", ["csv", "pdf", "txt", "doc", "docx"])
         document_file = st.file_uploader("Upload", type=["csv", "pdf", "txt", "doc", "docx"])
     
-    if document_file:
-        document_name = str(document_file.name.rsplit('.', 1)[0])  # Nome do arquivo sem extensão
-        
-        update_company_button = st.button("Atualizar Empresa", key="update_company")
-
-        print("id", selected_company_id, "documenttype:", document_type, "documentname: ", document_name)
-        if update_company_button:
+        if document_file:
+            document_name = str(document_file.name.rsplit('.', 1)[0])  # Nome do arquivo sem extensão
             
-            # Solicita a URL assinada ao backend
-            api_data = {
-                "id": selected_company_id,
-                "documentType": document_type,
-                "documentName": document_name,
-                "documentId": document_name  # Pode ajustar conforme necessário
-            }
-            
-            print(api_data, headers)
-            url_assinada_resposta = requests.post(f"{ENDPOINT_URL}/s3/signed-url", json=api_data, headers=headers)
-            print(url_assinada_resposta)
-            if url_assinada_resposta.status_code == 200:
-                url_assinada = url_assinada_resposta.json().get("uploadURL")
+            update_company_button = st.button("Atualizar Empresa", key="update_company")
 
-                upload_resposta = requests.put(url_assinada, data=document_file)
+            print("id", selected_company_id, "documenttype:", document_type, "documentname: ", document_name)
+            if update_company_button:
+                
+                # Solicita a URL assinada ao backend
+                api_data = {
+                    "id": selected_company_id,
+                    "documentType": document_type,
+                    "documentName": document_name,
+                    "documentId": document_name  # Pode ajustar conforme necessário
+                }
+                
+                print(api_data, headers)
+                url_assinada_resposta = requests.post(f"{ENDPOINT_URL}/s3/signed-url", json=api_data, headers=headers)
+                print(url_assinada_resposta)
+                if url_assinada_resposta.status_code == 200:
+                    url_assinada = url_assinada_resposta.json().get("uploadURL")
 
-                if upload_resposta.status_code == 200:
-                    st.success("Arquivo enviado com sucesso!")
+                    upload_resposta = requests.put(url_assinada, data=document_file)
+
+                    if upload_resposta.status_code == 200:
+                        st.success("Arquivo enviado com sucesso!")
+                    else:
+                        st.error(f"Erro ao enviar arquivo: {upload_resposta.text}")
                 else:
-                    st.error(f"Erro ao enviar arquivo: {upload_resposta.text}")
-            else:
-                st.error(f"Erro ao obter URL assinada: {url_assinada_resposta.text}")
+                    st.error(f"Erro ao obter URL assinada: {url_assinada_resposta.text}")
 
 
-    # elif option == "Links":
+    # elif option == "Links":  # Início do bloco comentado
     #     st.subheader("Lista de URLs")
     #     urls = st.text_input("Novo item")
 
@@ -187,10 +122,10 @@ if st.session_state[PAGE_SELECTION_KEY] == "Atualize Empresa":
     #     update_company_button = st.button("Atualizar Empresa", key="update_company")
 
     #     if update_company_button and st.session_state.lista:
-
+    #         prompt = st.text_input("Prompt", "") #Mantive, mas comentado.
     #         api_data = {
     #             "company_id": selected_company_id,
-    #             "prompt": prompt, # prompt precisa ser definido em algum lugar antes, ou pode ser um campo de texto também.
+    #             "prompt": prompt,
     #             "urls": st.session_state.lista
     #         }
 
@@ -202,6 +137,8 @@ if st.session_state[PAGE_SELECTION_KEY] == "Atualize Empresa":
     #                 st.error("Falha ao atualizar a empresa. Por favor, tente novamente.")
     #         except Exception as e:
     #             st.error(f"Um erro ocorreu: {str(e)}")
+      # Fim do bloco comentado
+
 
 if st.session_state[PAGE_SELECTION_KEY] == "Empresas":
     st.title("🏢 Empresas")
